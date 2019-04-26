@@ -19,9 +19,9 @@ class Scraper:
             unit_links += self.get_unit_codes(character.lower())
         self.unit_links = unit_links
 
-        # for unit_link in self.unit_links:
-        #     unit_info = self.get_unit_info(unit_link)
-        #     self.units[unit_info['unit_code']] = unit_info
+        for unit_link in self.unit_links:
+            unit_info = self.get_unit_info(unit_link)
+            self.units[unit_info['unit_code']] = unit_info
 
     def get_unit_characters(self):
         page = urlopen(f"{self.root_url}/index-bycode.html")
@@ -61,7 +61,16 @@ class Scraper:
         if(len(offerings) > 1):
             for offering in offerings:
                 current_offer = offering.split(' ')
-                print(current_offer[0], current_offer[1:])
+                offer_location = current_offer[0]
+                offer_teaching_period = ' '.join(current_offer[1:])
+
+                if(offer_location not in offerings_dict):
+                    offerings_dict[offer_location] = [offer_teaching_period]
+                else:
+                    offerings_dict[offer_location].append(
+                        offer_teaching_period)
+
+            unit_info['offerings'] = offerings_dict
         else:
             unit_info['offerings'] = None
 
@@ -95,6 +104,5 @@ class Scraper:
 
 if __name__ == "__main__":
     scraper = Scraper(2008)
-    print(scraper.get_unit_info('AFF2631'))
     print(json.dumps(scraper.units, sort_keys=True,
                      indent=2, separators=(',', ': ')))
