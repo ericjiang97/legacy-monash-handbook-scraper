@@ -12,13 +12,13 @@ HTML_PARSER = "html.parser"
 
 class Scraper:
     def __init__(self, year):
+        print(colored(f'Initializing scraper with year: {year}', 'yellow'))
         self.root_url = f"http://www.monash.edu.au/pubs/{year}handbooks/units"
         self.units = {}
-        self.setup()
-        self.data = pd.DataFrame(self.units).transpose()
-        pass
+        print(colored('Initialized!', 'green'))
 
     def setup(self):
+        print(colored('Running setup', 'yellow'))
         self.unit_characters = self.get_unit_characters()
         # self.unit_characters = ['A']
         pbar = tqdm(self.unit_characters)
@@ -27,7 +27,9 @@ class Scraper:
             unit_links += self.get_unit_codes(character.lower())
             pbar.set_description(
                 f"Getting units which code start with: {character}")
-        print(colored('Successfully got all units!', 'green'))
+        print(colored('Successfully got all unit codes!', 'green'))
+
+        print(colored('Getting unit info for all units', 'yellow'))
         self.unit_links = unit_links
         pbar = tqdm(self.unit_links)
         for unit_link in pbar:
@@ -35,6 +37,7 @@ class Scraper:
             pbar.set_description(f"Processing unit: {unit_link}")
             self.units[unit_info['unit_code']] = unit_info
         print(colored('Successfully got all unit info!', 'green'))
+        self.data = pd.DataFrame(self.units).transpose()
 
     def export_as_csv(self, file_name):
         # check if directory exists
@@ -126,4 +129,5 @@ class Scraper:
 
 if __name__ == "__main__":
     scraper = Scraper(2008)
+    scraper.setup()
     scraper.export_as_csv('2008.csv')
