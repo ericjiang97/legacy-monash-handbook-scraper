@@ -1,6 +1,9 @@
 # Operating System files
 .DS_Store
 
+# Exports
+exports/
+
 # ===== BEGIN: PYTHON GITIGNORE =====
 
 # Byte-compiled / optimized / DLL files
