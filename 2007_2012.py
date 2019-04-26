@@ -128,6 +128,10 @@ class Scraper:
 
 
 if __name__ == "__main__":
-    scraper = Scraper(2008)
-    scraper.setup()
-    scraper.export_as_csv('2008.csv')
+    year = int(input('Enter handbook year: '))
+    if(year < 2012 and year > 2007):
+        scraper = Scraper(2008)
+        scraper.setup()
+        scraper.export_as_csv('2008.csv')
+    else:
+        print(colored('Year has to be between 2007 and 2012', 'red'))
