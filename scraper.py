@@ -42,6 +42,7 @@ class Scraper:
         if not does_export_dir_exist:
             os.mkdir('exports/')
         self.data.to_csv(f'exports/{file_name}')
+        print(colored(f'Successfully exported file to {file_name}!', 'green'))
 
     def get_unit_characters(self):
         page = urlopen(f"{self.root_url}/index-bycode.html")
