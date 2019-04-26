@@ -18,16 +18,20 @@ class Scraper:
         pass
 
     def setup(self):
-        # self.unit_characters = self.get_unit_characters()
-        self.unit_characters = ['A']
+        self.unit_characters = self.get_unit_characters()
+        # self.unit_characters = ['A']
+        pbar = tqdm(self.unit_characters)
         unit_links = []
-        for character in self.unit_characters:
+        for character in pbar:
             unit_links += self.get_unit_codes(character.lower())
+            pbar.set_description(
+                f"Getting units which code start with: {character}")
+
         self.unit_links = unit_links
         pbar = tqdm(self.unit_links)
         for unit_link in pbar:
             unit_info = self.get_unit_info(unit_link)
-            pbar.set_description("Processing %s" % unit_link)
+            pbar.set_description(f"Processing unit: {unit_link}")
             self.units[unit_info['unit_code']] = unit_info
 
     def export_as_csv(self, file_name):
