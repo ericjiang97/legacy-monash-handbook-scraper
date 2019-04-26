@@ -1,6 +1,7 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+from termcolor import colored
 import pandas as pd
 import re
 import json
@@ -14,7 +15,7 @@ class Scraper:
         self.root_url = f"http://www.monash.edu.au/pubs/{year}handbooks/units"
         self.units = {}
         self.setup()
-        self.data = pd.DataFrame(self.units)
+        self.data = pd.DataFrame(self.units).transpose()
         pass
 
     def setup(self):
@@ -26,13 +27,14 @@ class Scraper:
             unit_links += self.get_unit_codes(character.lower())
             pbar.set_description(
                 f"Getting units which code start with: {character}")
-
+        print(colored('Successfully got all units!', 'green'))
         self.unit_links = unit_links
         pbar = tqdm(self.unit_links)
         for unit_link in pbar:
             unit_info = self.get_unit_info(unit_link)
             pbar.set_description(f"Processing unit: {unit_link}")
             self.units[unit_info['unit_code']] = unit_info
+        print(colored('Successfully got all unit info!', 'green'))
 
     def export_as_csv(self, file_name):
         # check if directory exists

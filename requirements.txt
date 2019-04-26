@@ -1,3 +1,4 @@
 beautifulsoup4==4.7.1
 tqdm==4.31.1
 pandas==0.24.2
+termcolor==1.1.0
