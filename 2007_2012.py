@@ -132,6 +132,6 @@ if __name__ == "__main__":
     if(year < 2012 and year > 2007):
         scraper = Scraper(2008)
         scraper.setup()
-        scraper.export_as_csv('2008.csv')
+        scraper.export_as_csv(f'{year}.csv')
     else:
         print(colored('Year has to be between 2007 and 2012', 'red'))
