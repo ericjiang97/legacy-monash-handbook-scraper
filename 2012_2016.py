@@ -74,10 +74,10 @@ class Scraper:
         soup = BeautifulSoup(page, HTML_PARSER)
         unit_info = {}
 
-        synopsis_heading = soup.find('h4', text="Synopsis")
+        synopsis_heading = soup.find('h3', text="Synopsis")
         if (synopsis_heading != None):
             unit_info['synopsis'] = synopsis_heading.find_next_sibling(
-                'p').text.strip('\n')
+                'div').text.strip('\n')
         else:
             unit_info['synopsis'] = None
 
@@ -86,15 +86,16 @@ class Scraper:
         if(offerings_heading == None):
             unit_info['offerings'] = None
         else:
-            offerings = []
+            offerings_array = []
             offerings = offerings_heading.find_next_sibling(
                 'td')
 
             offering_locations = offerings.find_all()
             for offering in offering_locations:
                 if offering.name != "br":
-                    offerings.append(f"{offering.text}{offering.next_sibling}")
-            unit_info['offerings'] = offerings
+                    offerings_array.append(
+                        f"{offering.text}{offering.next_sibling}")
+            unit_info['offerings'] = offerings_array
 
         breadcrumbs = soup.find('div', attrs={"id": "breadcrumbs"})
         description = breadcrumbs.find_next_sibling('h1')
