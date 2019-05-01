@@ -50,6 +50,12 @@ pip3 install -r requirements.txt
 pip install -r requirements.txt
 ```
 
+# Running
+
+```sh
+python3 main.py
+```
+
 # LICENSE
 
 This repo is licensed under `MIT`
